@@ -37,7 +37,7 @@ function writePassword() {
   // Include numbers
    var numbers = confirm('Select OK to include numeric characters.');
 
-   userCriteria = {
+   userCriteria = {userCriteria:
      passwordLength,
      specialCharacters,
      uppercase,
@@ -46,11 +46,7 @@ function writePassword() {
    }
    console.log(userCriteria);
 
-  //  function getRandom() {
-  //   var randomCharacter = Math.floor(Math.random());
-  //     randomCharacter;
-  //  }
-
+// choose random character from selected array
   function getRandom(arr) {
     var randIndex = Math.floor(Math.random() * arr.length);
     var randElement = arr[randIndex];
@@ -63,7 +59,7 @@ function writePassword() {
    var selectedCharacters = [];
 
 var generatePassword = function() {
-  // adds selected criteria into possible characters string and selected characters string
+  // adds selected criteria into possible characters array and selected characters array
   if (specialCharacters === true) {
     possibleCharacters = possibleCharacters.concat(specialCharactersArr);
     selectedCharacters.push(getRandom(specialCharactersArr));
@@ -77,30 +73,29 @@ var generatePassword = function() {
     possibleCharacters = possibleCharacters.concat(numbersArr);
     selectedCharacters.push(getRandom(numbersArr));
   }
-  // and one character from each selection into selected characters string
-selectedCharacters = selectedCharacters.join("");
-  var randomizeCharacters = function() {
+
+// randomizes the order of the user selected characters
+  var randomizedCharacters = function() {
     possibleCharacters.sort(function (a, b) {return 0.5 - Math.random()});
   }
+  randomizedCharacters();
 
-  randomizeCharacters();
-  console.log('possible characters: ' + possibleCharacters,
-  'selected characters: ' + selectedCharacters);
-
+// creates an array to fill the remaining space of the password length
 var remainingCharacters = [];
 remainingCharacters = possibleCharacters.slice(0, passwordLength-selectedCharacters.length);
-  // while (selectedCharacters.length < passwordLength) {
-  //   selectedCharacters = selectedCharacters.push(getRandom(possibleCharacters));
-  // }
-remainingCharacters = remainingCharacters.join("");
+
+// joins and randomizes the selected characters array and remaining Characters array
 password = selectedCharacters.concat(remainingCharacters);
-console.log(password);
-document.getElementById("password").innerHTML = password;
+var randomizePassword = function() {
+  password.sort(function (a, b) {return 0.5 - Math.random()});
+}
+randomizePassword();
+
+// displays generated password on the page
+document.getElementById("password").innerHTML = password.join("");
 }
 
 generatePassword();
-
-
 }
 
 // Add event listener to generate button
